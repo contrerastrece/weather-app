@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import location from '../assets/img/location.svg'
 import gps from '../assets/img/gps.svg'
 import shower from '../assets/img/Shower.png'
 import clouds from '../assets/img/Cloud-background.png'
-import WeatherNav from './WeatherNav'
+import DataContext from '../context/dataContext';
 
 const Sidebar = () => {
-const [isOpenModal, setIsOpenModal] = useState(false);
 
 const [weatherData, setWeatherData] = useState(null);
 const [latitude, setLatitude] = useState(null);
 const [longitude, setLongitude] = useState(null);
+
+const {data} =useContext(DataContext);
+console.log(data);
 
 const getWeatherData=async()=>{
   const API_KEY='eaa81cef3e751d0ae1fd812e9323c09d';
@@ -49,20 +51,10 @@ useEffect(() => {
 }, [latitude,longitude]);
 
 
-// Modal-------------------
-const handleOpenModal=()=>{
-  setIsOpenModal(true)
-}
-
-const handleCloseModal=()=>{
-  setIsOpenModal(false)
-}
-
-
   return (
     <div className='h-[100dvh] md:h[100%] w-full relative flex flex-col justify-between items-center md:w-[28rem] bg-[#1E213A] p-3 overflow-hidden'>
       <div className='w-full h-[2.5rem] flex flex-row justify-between overflow-hidden'>
-        <button className=' bg-[#6E707A] px-3 py-3 text-[#E7E7EB] leading-[0rem]' onClick={handleOpenModal}>Search for Places</button>
+        <button className=' bg-[#6E707A] px-3 py-3 text-[#E7E7EB] leading-[0rem]' >Search for Places</button>
         <button className=''><img src={location} alt="img-location" className='h-[2.5rem]' onClick={handleLocation}/></button>
       </div>
       <div className='flex items-center justify-center w-[35rem] h-[20rem] overflow-hidden relative' >
@@ -79,7 +71,7 @@ const handleCloseModal=()=>{
           <p>{weatherData?.name||'Helsinki'}</p>
         </div>
       </div>
-      <WeatherNav onClose={handleCloseModal} isOpen={isOpenModal}/>
+      
     </div>
   )
 }
