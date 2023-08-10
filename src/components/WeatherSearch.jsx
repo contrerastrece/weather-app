@@ -3,7 +3,7 @@ import closeIcon from '../assets/img/close.svg'
 import left from '../assets/img/left.svg'
 import DataContext from '../context/dataContext'
 
-const WeatherSearch = () => {
+const WeatherSearch = ({onClose}) => {
   const [citySearch, setCitySearch] = useState("")
 
  
@@ -12,17 +12,12 @@ const WeatherSearch = () => {
  const handleChange=(e)=>{
   console.log(e.target.value)
   setCitySearch(e.target.value)
-  // handleSearch(e.target.value);
 }
-// const handleSearchWeather=()=>{
-//   console.log(citySearch,"SEARCH")
-//     handleSearch(citySearch)    
-// }
 
 
   return (
-    <div className='w-full h-[100dvh] md-[28rem]  p-3 gap-[1.5rem]top-0 left-0 bg-[#1E213A] flex flex-col'>
-     <div className='w-full flex justify-end'><img src={closeIcon} alt="" className='w-[1.5rem] cursor-pointer' /></div>
+    <div className='w-full h-[100dvh] md:w-[25rem] p-3 gap-[1.5rem] absolute top-0 left-[0rem] bg-[#1E213A] flex flex-col'>
+     <div className='w-full flex justify-end'><img src={closeIcon} alt="" className='w-[1.5rem] cursor-pointer' onClick={onClose}/></div>
       <form action="" className='flex w-full justify-between my-[1.5rem]'>
         <input type="text"  className='h-[3rem] p-[1.5rem]' placeholder='search location' value={citySearch} onChange={handleChange}/>
         <button type="button" className='bg-[#3C47E9] h-[3rem] text-[#E7E7EB] text-[1rem] w-[5rem]' onClick={()=>{handleSearch(citySearch)}}>Search</button>

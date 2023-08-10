@@ -4,15 +4,16 @@ import gps from '../assets/img/gps.svg'
 import shower from '../assets/img/Shower.png'
 import clouds from '../assets/img/Cloud-background.png'
 import DataContext from '../context/dataContext';
+import WeatherSearch from '../components/WeatherSearch';
 
 const Sidebar = () => {
 
 const [weatherData, setWeatherData] = useState(null);
 const [latitude, setLatitude] = useState(null);
 const [longitude, setLongitude] = useState(null);
+const [isOpen, setIsOpen] = useState(false)
 
 const {data} =useContext(DataContext);
-console.log(data);
 
 const getWeatherData=async()=>{
   const API_KEY='eaa81cef3e751d0ae1fd812e9323c09d';
@@ -51,14 +52,19 @@ useEffect(() => {
 }, [latitude,longitude]);
 
 
+const toggleWeatherSearch=()=>{
+  setIsOpen(!isOpen)
+}
+
+
   return (
-    <div className='h-[100dvh] md:h[100%] w-full relative flex flex-col justify-between items-center md:w-[28rem] bg-[#1E213A] p-3 overflow-hidden'>
+    <div className='h-[100dvh] w-full md:w-[25rem] flex flex-col justify-between items-center bg-[#1E213A] p-3 border overflow-hidden '>
       <div className='w-full h-[2.5rem] flex flex-row justify-between overflow-hidden'>
-        <button className=' bg-[#6E707A] px-3 py-3 text-[#E7E7EB] leading-[0rem]' >Search for Places</button>
+        <button className=' bg-[#6E707A] px-3 py-3 text-[#E7E7EB] leading-[0rem]' onClick={toggleWeatherSearch}>Search for Places</button>
         <button className=''><img src={location} alt="img-location" className='h-[2.5rem]' onClick={handleLocation}/></button>
       </div>
-      <div className='flex items-center justify-center w-[35rem] h-[20rem] overflow-hidden relative' >
-        <div className='bg-center bg-no-repeat bg-cover w-full h-[20rem] absolute' style={{ backgroundImage: `url(${clouds})`,opacity:'0.1'}}></div>
+      <div className='flex items-center justify-center w-[100dvw] md:w-[25rem] h-[20rem] relative overflow-hidden'  >
+        <div className='bg-center bg-no-repeat bg-contain w-[35rem] h-[20rem] absolute border ' style={{ backgroundImage: `url(${clouds})`,opacity:'0.1'}}></div>
         <img src={shower} alt="" className='w-[9.5rem] object-contain opacity-100' />
 
       </div>
@@ -71,7 +77,7 @@ useEffect(() => {
           <p>{weatherData?.name||'Helsinki'}</p>
         </div>
       </div>
-      
+      {isOpen&&<WeatherSearch onClose={toggleWeatherSearch}/>}
     </div>
   )
 }
