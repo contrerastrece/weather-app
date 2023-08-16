@@ -7,22 +7,20 @@ import DataContext from "../context/dataContext";
 import WeatherSearch from "../components/WeatherSearch";
 
 const Sidebar = () => {
-  const [weatherData, setWeatherData] = useState(null);
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  
+  const {weatherInfo, updateWeatherInfo} = useContext(DataContext);
+  const API_KEY = "eaa81cef3e751d0ae1fd812e9323c09d";
 
-  const { data } = useContext(DataContext);
-
-  const getWeatherData = async () => {
-    const API_KEY = "eaa81cef3e751d0ae1fd812e9323c09d";
-    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&exclude={part}&appid=${API_KEY}&units=metric&lang=sp`;
-
+  const getWeatherDataByCoords = async (lat,lon) => {
+    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&exclude={part}&appid=${API_KEY}&units=metric&lang=sp`;
+   
     try {
       const response = await fetch(url);
       const result = await response.json();
-      console.log(result);
-      setWeatherData(result);
+      updateWeatherInfo(result);
     } catch (error) {
       console.error("Error al obtener datos del clima:", error);
     }
@@ -32,8 +30,10 @@ const Sidebar = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          setLatitude(position.coords.latitude);
-          setLongitude(position.coords.longitude);
+          const { latitude, longitude } = position.coords;
+          setLatitude(latitude);
+          setLongitude(longitude);
+          getWeatherDataByCoords(latitude,longitude)
         },
         (error) => {
           console.error("Error al obtener la Ubicacion:", error);
@@ -42,23 +42,26 @@ const Sidebar = () => {
     }
   };
 
+
   useEffect(() => {
     if (latitude && longitude) {
-      getWeatherData();
+      getWeatherDataByCoords(latitude,longitude);
     }
   }, [latitude, longitude]);
 
-  const toggleWeatherSearch = () => {
+  
+  const toggleWeatherSearch = () => {    
     setIsOpen(!isOpen);
   };
 
-const getFormatteDate=()=>{
-  const options={weekday:'short',day:'numeric',month:'short'}
-  const currentDate=new Date();
-  return currentDate.toLocaleDateString('en-US',options)
-}
+  const getFormatteDate = () => { 
+    const options = { weekday: "short", day: "numeric", month: "short" };
+    const currentDate = new Date();
+    return currentDate.toLocaleDateString("en-US", options);
+  };
+
   return (
-    <div className="h-[100dvh] w-full md:w-[25rem] flex flex-col justify-between items-center bg-[#1E213A] p-3 border overflow-hidden ">
+    <div className="h-[100dvh] w-full md:w-[25rem] flex flex-col justify-between items-center bg-[#1E213A] p-3 overflow-hidden ">
       <div className="w-full h-[2.5rem] flex flex-row justify-between overflow-hidden">
         <button
           className=" bg-[#6E707A] px-3 py-3 text-[#E7E7EB] leading-[0rem]"
@@ -88,21 +91,21 @@ const getFormatteDate=()=>{
       </div>
       <div className="text-[#88869D] flex flex-col text-center gap-[1rem]">
         <div className="temperature text-[#E7E7EB] text-[9rem] leading-[5rem]">
-          {Math.round(data?.main?.temp) || "15"}{" "}
+          {Math.round(weatherInfo?.main?.temp) || "15"}{" "}
           <span className="text-[3rem] text-[#A09FB1]">°C</span>
         </div>
         <div className="text-[2.5rem] ">
-          {weatherData?.weather[0]?.description || "Shower"}
+          {weatherInfo?.weather[0]?.description || "Shower"}
         </div>
         <p className="date">
           Today · <span>{getFormatteDate()}</span>
         </p>
         <div className="flex items-center justify-center mb-[2rem]">
           <img src={gps} alt="" />
-          <p>{data?.name || "Helsinki"}</p>
+          <p>{weatherInfo?.name || "Helsinki"}</p>
         </div>
       </div>
-      {isOpen && <WeatherSearch onClose={toggleWeatherSearch} />}
+      {isOpen && <WeatherSearch onClose={toggleWeatherSearch}/>}
     </div>
   );
 };
