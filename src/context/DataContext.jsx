@@ -4,24 +4,18 @@ const DataContext = createContext();
 
 export const DataProvider = ({ children }) => {
   const [weatherInfo, setWeatherInfo] = useState(null);
-  // const [data, setData] = useState({});
-  // const getDataByCity = async (city) => {
-  //   const API_KEY = "eaa81cef3e751d0ae1fd812e9323c09d";
-  //   let urlWeather = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric&lang=sp`;
+  const [forecastInfo, setForecastInfo] = useState(null);
 
-  //   const response = await fetch(urlWeather);
-  //   const result = await response.json();
-  //   setData(result);
-  // };
-  // const dataWeather = { data, getDataByCity };
-
-  const updateWeatherInfo = (newWeatherInfo) => {
+  const updateWeatherInfo = (newWeatherInfo,newForescastInfo) => {
     setWeatherInfo(newWeatherInfo);
+    setForecastInfo(newForescastInfo);
   };
+
+  
 
   return (
     // <DataContext.Provider value={dataWeather}>{children}</DataContext.Provider>
-    <DataContext.Provider value={{ weatherInfo, updateWeatherInfo }}>
+    <DataContext.Provider value={{ weatherInfo, updateWeatherInfo,forecastInfo }}>
       {children}
     </DataContext.Provider>
   );

@@ -1,0 +1,18 @@
+.weather-container {
+  position: relative;
+}
+
+.moving-image {
+  animation: slide 10s linear infinite; /* Ajusta la velocidad (10s) según tus necesidades */
+  opacity: 0.1;
+  left: 0; /* Empieza fuera del contenedor a la derecha */
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(0); /* Comienza en el centro */
+  }
+  100% {
+    transform: translateX(-100%); /* Termina fuera del contenedor a la izquierda */
+  }
+}

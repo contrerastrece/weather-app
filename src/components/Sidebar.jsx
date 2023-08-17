@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import location from "../assets/img/location.svg";
 import gps from "../assets/img/gps.svg";
-import shower from "../assets/img/Shower.png";
+import shower from "../assets/img/10d.png";
 import clouds from "../assets/img/Cloud-background.png";
 import DataContext from "../context/dataContext";
 import WeatherSearch from "../components/WeatherSearch";
+import './Sidebar.css';
 
 const Sidebar = () => {
   const [latitude, setLatitude] = useState(null);
@@ -15,12 +16,15 @@ const Sidebar = () => {
   const API_KEY = "eaa81cef3e751d0ae1fd812e9323c09d";
 
   const getWeatherDataByCoords = async (lat,lon) => {
-    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&exclude={part}&appid=${API_KEY}&units=metric&lang=sp`;
-   
+    const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&exclude={part}&appid=${API_KEY}&units=metric&lang=sp`;
+    const forecastUrl=`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric&lang=sp`
     try {
-      const response = await fetch(url);
-      const result = await response.json();
-      updateWeatherInfo(result);
+      const [responseWeather,responseForecast ]= await Promise.all([fetch(weatherUrl), fetch(forecastUrl)]);
+      const resultWeather = await responseWeather.json();
+      const resultForecast = await responseForecast.json();
+
+      updateWeatherInfo(resultWeather,resultForecast);
+
     } catch (error) {
       console.error("Error al obtener datos del clima:", error);
     }
@@ -78,14 +82,14 @@ const Sidebar = () => {
           />
         </button>
       </div>
-      <div className="flex items-center justify-center w-[100dvw] md:w-[25rem] h-[20rem] relative overflow-hidden">
+      <div className="flex items-center justify-center w-[100dvw] md:w-[25rem] h-[20rem] overflow-hidden weather-container">
         <div
-          className="bg-center bg-no-repeat bg-contain w-[35rem] h-[20rem] absolute border "
+          className="bg-center bg-no-repeat bg-contain w-[35rem] h-[15rem] absolute moving-image"
           style={{ backgroundImage: `url(${clouds})`, opacity: "0.1" }}
         ></div>
         <img
-          src={shower}
-          alt=""
+          src={weatherInfo?.weather[0]?.icon?`https://openweathermap.org/img/wn/${weatherInfo?.weather[0]?.icon}@4x.png` : shower}
+          alt={`${weatherInfo?.weather[0].description}`||""}
           className="w-[9.5rem] object-contain opacity-100"
         />
       </div>

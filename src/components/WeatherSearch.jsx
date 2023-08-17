@@ -12,13 +12,16 @@ const WeatherSearch = ({onClose}) => {
 
   const getDataByCity = async (city) => {
     const API_KEY = "eaa81cef3e751d0ae1fd812e9323c09d";
-    let urlWeather = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric&lang=sp`;
+    let weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric&lang=sp`;
+    let forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=metric&lang=sp`
 
     try {
-      const response = await fetch(urlWeather);
-      if(response.ok){
-        const result = await response.json();
-        updateWeatherInfo(result);
+      const [responseWeather,responseForecast ]= await Promise.all([fetch(weatherUrl), fetch(forecastUrl)]);
+      if(responseWeather.ok && responseForecast.ok){
+        const resultWeather = await responseWeather.json();
+        const resultForecast = await responseForecast.json();
+        
+        updateWeatherInfo(resultWeather,resultForecast);
         setErrorMessage("")
       }else{
         alert("ciudad no encontrada");
