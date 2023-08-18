@@ -61,7 +61,7 @@ const Sidebar = () => {
   const getFormatteDate = () => { 
     const options = { weekday: "short", day: "numeric", month: "short" };
     const currentDate = new Date();
-    return currentDate.toLocaleDateString("en-US", options);
+    return currentDate.toLocaleDateString("es-ES", options);
   };
 
   return (

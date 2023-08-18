@@ -8,6 +8,16 @@ const MainResults = () => {
   const { weatherInfo,forecastInfo } = useContext(DataContext);
   // console.log(weatherInfo, "Main");
   console.log(forecastInfo, "Main");
+
+  const getFormateDate=(dateString)=> {
+    const date = new Date(dateString);
+    const options = { weekday: "short", month: "short", day: "numeric" };
+    return date.toLocaleDateString("es-ES", options);
+  }
+  
+  // const dt_txt = weatherInfo.list;
+  // const formattedDate = getFormatDate(dt_txt);
+
   return (
     <div className="bg-[#100E1D] md:w-full md:h-[100dvh] overflow-y-auto max-w-[62rem] md:px-[5rem] py-[1rem]">
       <div className="flex gap-3 flex-wrap items-center md:justify-between md:gap-5 p-[1.5rem]">
@@ -48,7 +58,7 @@ const MainResults = () => {
         </div>
        {forecastInfo && forecastInfo.list.map(element => (
           <div key={element.dt} className="w-[7.5rem] bg-[#1E213A] h-[10rem] flex flex-col items-center justify-center">
-           <h2 className="text-[#E7E7EB] text-[1rem]">{element.dt_txt}</h2>
+           <h2 className="text-[#E7E7EB] text-[1rem]">{getFormateDate(element.dt_txt)}</h2>
            <img src={`https://openweathermap.org/img/wn/${element.weather[0]?.icon}@4x.png`} alt={`${element.weather[0].description}`} className="w-[3.5rem]" />
            <p className="text-[1rem] text-[#E7E7EB] m-[1rem] flex gap-3">
              {Math.round(element.main.temp_max)}°C <span className="text-[#A09FB1]">{Math.round(element.main.temp_min)}°C </span>
