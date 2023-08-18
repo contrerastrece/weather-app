@@ -4,19 +4,59 @@ import direction from "../assets/img/direction.svg";
 import DataContext from "../context/dataContext";
 
 const MainResults = () => {
-  // const {weatherInfo}=useContext(DataContext);
-  const { weatherInfo,forecastInfo } = useContext(DataContext);
-  // console.log(weatherInfo, "Main");
-  console.log(forecastInfo, "Main");
+  const { weatherInfo, forecastInfo } = useContext(DataContext);
 
-  const getFormateDate=(dateString)=> {
+  const getFormateDate = (dateString) => {
     const date = new Date(dateString);
     const options = { weekday: "short", month: "short", day: "numeric" };
     return date.toLocaleDateString("es-ES", options);
-  }
-  
-  // const dt_txt = weatherInfo.list;
-  // const formattedDate = getFormatDate(dt_txt);
+  };
+
+  // calcular la  temp_max y tem_min por día
+
+  // 1. Agrupamos por día
+  const groupByDay = (forecastInfo) => {
+    const grouped = {};
+    // Obtenemos la fecha de hoy en el mismo formato que dt_txt
+    const todayDate = new Date().toISOString().split("T")[0];
+
+    forecastInfo?.list.forEach((el) => {
+      const date = el.dt_txt.split(" ")[0];
+      if (date !== todayDate) {
+        if (!grouped[date]) {
+          grouped[date] = [];
+        }
+        grouped[date].push(el);
+      }
+    });
+    return grouped;
+  };
+
+  // 2
+  const calcMinMaxTempByDay = (grouped) => {
+    const result = [];
+    for (const date in grouped) {
+      const temperatures = grouped[date].map((day) => day.main.temp);
+
+      const maxTemp = Math.max(...temperatures);
+      // Encontramos el objeto con la temperatura máxima
+      const maxTempElement = grouped[date].find(
+        (element) => element.main.temp === maxTemp
+      );
+
+      const minTemp = Math.min(...temperatures);
+
+      // Obtenemos el icono del objeto con la temperatura máxima
+      const icon = maxTempElement.weather[0].icon;
+
+      result.push({ date, maxTemp, minTemp, icon });
+    }
+
+    return result;
+  };
+
+  const groupForecast = groupByDay(forecastInfo);
+  const ForecastByDays = calcMinMaxTempByDay(groupForecast);
 
   return (
     <div className="bg-[#100E1D] md:w-full md:h-[100dvh] overflow-y-auto max-w-[62rem] md:px-[5rem] py-[1rem]">
@@ -56,7 +96,7 @@ const MainResults = () => {
             16 °C <span className="text-[#A09FB1]">11 °C</span>
           </p>
         </div>
-       {forecastInfo && forecastInfo.list.map(element => (
+        {/* {forecastInfo && forecastInfo.list.map(element => (
           <div key={element.dt} className="w-[7.5rem] bg-[#1E213A] h-[10rem] flex flex-col items-center justify-center">
            <h2 className="text-[#E7E7EB] text-[1rem]">{getFormateDate(element.dt_txt)}</h2>
            <img src={`https://openweathermap.org/img/wn/${element.weather[0]?.icon}@4x.png`} alt={`${element.weather[0].description}`} className="w-[3.5rem]" />
@@ -64,7 +104,26 @@ const MainResults = () => {
              {Math.round(element.main.temp_max)}°C <span className="text-[#A09FB1]">{Math.round(element.main.temp_min)}°C </span>
            </p>
          </div>
-        ))}
+        ))} */}
+        {forecastInfo &&
+          ForecastByDays.map((e) => (
+            <div key={e.date} className="w-[7.5rem] bg-[#1E213A] h-[10rem] flex flex-col items-center justify-center">
+              <h2 className="text-[#E7E7EB] text-[1rem]">
+                {getFormateDate(e.date)}
+              </h2>
+              <img
+                src={`https://openweathermap.org/img/wn/${e.icon}@4x.png`}
+                alt=""
+                className="w-[3.5rem]"
+              />
+              <p className="text-[1rem] text-[#E7E7EB] m-[1rem] flex gap-3">
+                {Math.round(e.maxTemp)} °C{" "}
+                <span className="text-[#A09FB1]">
+                  {Math.round(e.minTemp)}°C
+                </span>
+              </p>
+            </div>
+          ))}
       </div>
 
       <div className="p-[1.5rem] pt-0">

@@ -4,7 +4,7 @@ import left from '../assets/img/left.svg'
 import DataContext from '../context/dataContext'
 
 const WeatherSearch = ({onClose}) => {
-  const [inputCity, setInputCity] = useState("");
+  const [inputCity, setInputCity] = useState("london");
   const [errorMessage, setErrorMessage] = useState("")
 
   // const {getDataByCity}=useContext(DataContext);
