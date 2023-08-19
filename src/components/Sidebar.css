@@ -1,18 +1,33 @@
 .weather-container {
   position: relative;
+  overflow: hidden;
+
+}
+.container-cloudes{
+  position: absolute;
+  width: 200%;
+  height: 100%;
+  display: flex;
+}
+.cloudes{
+  animation: slide 10s linear infinite;
+  width: 100%;
+  height: 100%;
+  background-image: url('../assets/img/Cloud-background.png');
+  background-repeat: repeat-x;
+  /* background-repeat: no-repeat; */
+  opacity: 0.1;
+  background-position: center;
+  background-size: contain;
 }
 
-.moving-image {
-  animation: slide 10s linear infinite; /* Ajusta la velocidad (10s) según tus necesidades */
-  opacity: 0.1;
-  left: 0; /* Empieza fuera del contenedor a la derecha */
-}
 
 @keyframes slide {
   0% {
-    transform: translateX(0); /* Comienza en el centro */
+    transform: translateX(50%); /* Comienza en el centro */
   }
-  100% {
-    transform: translateX(-100%); /* Termina fuera del contenedor a la izquierda */
+  100%{
+  transform: translateX(-50%); /* Termina fuera del contenedor a la izquierda */
+
   }
 }

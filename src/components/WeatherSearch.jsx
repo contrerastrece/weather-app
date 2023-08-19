@@ -32,10 +32,15 @@ const WeatherSearch = ({onClose}) => {
     }
   };
 
+  useEffect(() => {
+    // Realizar la búsqueda inicial al cargar la página
+    getDataByCity(inputCity);
+  }, []); // El segundo argumento [] asegura que este efecto se ejecute solo una vez al montar el componente.
+
+
   const handleInputChange = (event) => {
     setInputCity(event.target.value);
   };
-  
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -43,9 +48,8 @@ const WeatherSearch = ({onClose}) => {
     onClose(); // Cerrar el modal después de realizar la búsqueda
   };
   
-
   return (
-    <div className='w-full h-[100dvh] md:w-[25rem] p-3 gap-[1.5rem] absolute top-0 left-[0rem] bg-[#1E213A] flex flex-col'>
+    <div className='w-full h-[100dvh] md:w-[25rem] p-3 gap-[1.5rem] fixed top-0 left-[0rem] bg-[#1E213A] flex flex-col'>
      <div className='w-full flex justify-end'><img src={closeIcon} alt="" className='w-[1.5rem] cursor-pointer' onClick={onClose}/></div>
       <form action="" className='flex w-full justify-between my-[1.5rem]' onSubmit={handleSubmit}>
         <input type="text"  className='h-[3rem] p-[1.5rem]' placeholder='search location' value={inputCity} onChange={handleInputChange}/>

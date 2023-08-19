@@ -17,12 +17,14 @@ const MainResults = () => {
   // 1. Agrupamos por día
   const groupByDay = (forecastInfo) => {
     const grouped = {};
-    // Obtenemos la fecha de hoy en el mismo formato que dt_txt
-    const todayDate = new Date().toISOString().split("T")[0];
+
+  // Obtener la fecha actual
+  const today = new Date();
+  const todayISOString = today.toISOString().split("T")[0];
 
     forecastInfo?.list.forEach((el) => {
       const date = el.dt_txt.split(" ")[0];
-      if (date !== todayDate) {
+      if (date !== todayISOString) {
         if (!grouped[date]) {
           grouped[date] = [];
         }

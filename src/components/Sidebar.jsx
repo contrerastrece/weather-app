@@ -13,6 +13,7 @@ const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   
   const {weatherInfo, updateWeatherInfo} = useContext(DataContext);
+  console.log(weatherInfo)
   const API_KEY = "eaa81cef3e751d0ae1fd812e9323c09d";
 
   const getWeatherDataByCoords = async (lat,lon) => {
@@ -66,7 +67,7 @@ const Sidebar = () => {
 
   return (
     <div className="h-[100dvh] w-full md:w-[25rem] flex flex-col justify-between items-center bg-[#1E213A] p-3 overflow-hidden ">
-      <div className="w-full h-[2.5rem] flex flex-row justify-between overflow-hidden">
+      <div className="w-full h-[2.5rem] flex flex-row justify-between">
         <button
           className=" bg-[#6E707A] px-3 py-3 text-[#E7E7EB] leading-[0rem]"
           onClick={toggleWeatherSearch}
@@ -82,11 +83,17 @@ const Sidebar = () => {
           />
         </button>
       </div>
-      <div className="flex items-center justify-center w-[100dvw] md:w-[25rem] h-[20rem] overflow-hidden weather-container">
-        <div
-          className="bg-center bg-no-repeat bg-contain w-[35rem] h-[15rem] absolute moving-image"
-          style={{ backgroundImage: `url(${clouds})`, opacity: "0.1" }}
-        ></div>
+      <div className="flex items-center justify-center w-[100dvw] md:w-[25rem] h-[20rem] weather-container">
+        <div className="container-cloudes">
+          <div
+            className="cloudes"
+            
+          ></div>
+          <div
+            className="cloudes"
+            
+          ></div>
+        </div>
         <img
           src={weatherInfo?.weather[0]?.icon?`https://openweathermap.org/img/wn/${weatherInfo?.weather[0]?.icon}@4x.png` : shower}
           alt={`${weatherInfo?.weather[0].description}`||""}
@@ -106,7 +113,7 @@ const Sidebar = () => {
         </p>
         <div className="flex items-center justify-center mb-[2rem]">
           <img src={gps} alt="" />
-          <p>{weatherInfo?.name || "Helsinki"}</p>
+          <p>{weatherInfo?.name || "Helsinki"}, {weatherInfo?.sys.country}</p>
         </div>
       </div>
       {isOpen && <WeatherSearch onClose={toggleWeatherSearch}/>}
