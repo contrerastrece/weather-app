@@ -8,6 +8,8 @@ const MainResults = () => {
 
   const getFormateDate = (dateString) => {
     const date = new Date(dateString);
+    // Establecer la zona horaria a "es-ES"
+    date.setTime(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
     const options = { weekday: "short", month: "short", day: "numeric" };
     return date.toLocaleDateString("es-ES", options);
   };
@@ -18,18 +20,12 @@ const MainResults = () => {
   const groupByDay = (forecastInfo) => {
     const grouped = {};
 
-  // Obtener la fecha actual
-  const today = new Date();
-  const todayISOString = today.toISOString().split("T")[0];
-
     forecastInfo?.list.forEach((el) => {
       const date = el.dt_txt.split(" ")[0];
-      if (date !== todayISOString) {
-        if (!grouped[date]) {
-          grouped[date] = [];
-        }
-        grouped[date].push(el);
+      if (!grouped[date]) {
+        grouped[date] = [];
       }
+      grouped[date].push(el);
     });
     return grouped;
   };
@@ -58,7 +54,7 @@ const MainResults = () => {
   };
 
   const groupForecast = groupByDay(forecastInfo);
-  const ForecastByDays = calcMinMaxTempByDay(groupForecast);
+  const ForecastByDays = calcMinMaxTempByDay(groupForecast).slice(1);
 
   return (
     <div className="bg-[#100E1D] md:w-full md:h-[100dvh] overflow-y-auto max-w-[62rem] md:px-[5rem] py-[1rem]">
@@ -98,18 +94,12 @@ const MainResults = () => {
             16 °C <span className="text-[#A09FB1]">11 °C</span>
           </p>
         </div>
-        {/* {forecastInfo && forecastInfo.list.map(element => (
-          <div key={element.dt} className="w-[7.5rem] bg-[#1E213A] h-[10rem] flex flex-col items-center justify-center">
-           <h2 className="text-[#E7E7EB] text-[1rem]">{getFormateDate(element.dt_txt)}</h2>
-           <img src={`https://openweathermap.org/img/wn/${element.weather[0]?.icon}@4x.png`} alt={`${element.weather[0].description}`} className="w-[3.5rem]" />
-           <p className="text-[1rem] text-[#E7E7EB] m-[1rem] flex gap-3">
-             {Math.round(element.main.temp_max)}°C <span className="text-[#A09FB1]">{Math.round(element.main.temp_min)}°C </span>
-           </p>
-         </div>
-        ))} */}
         {forecastInfo &&
           ForecastByDays.map((e) => (
-            <div key={e.date} className="w-[7.5rem] bg-[#1E213A] h-[10rem] flex flex-col items-center justify-center">
+            <div
+              key={e.date}
+              className="w-[7.5rem] bg-[#1E213A] h-[10rem] flex flex-col items-center justify-center"
+            >
               <h2 className="text-[#E7E7EB] text-[1rem]">
                 {getFormateDate(e.date)}
               </h2>
