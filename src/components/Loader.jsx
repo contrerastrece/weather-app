@@ -1,9 +1,11 @@
-import React from 'react'
-import './Loader.css'
+import React from "react";
+import "./Loader.css";
 const Loader = () => {
   return (
-    <div><span className="loader"></span></div>
-  )
-}
+    <div className="w-full h-full flex justify-center items-center ">
+      <span className="loader"></span>
+    </div>
+  );
+};
 
-export default Loader
+export default Loader;

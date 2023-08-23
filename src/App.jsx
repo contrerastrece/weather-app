@@ -5,9 +5,11 @@ import Sidebar from "./components/Sidebar";
 import { DataProvider } from "./context/dataContext";
 import { useWeather } from "./context/WeatherContext";
 import Loader from "./components/Loader";
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 function App() {
-  const { clima, ubicacion, setUbicacion, setBuscarPorCoordenadas } =
+  const { setUbicacion, setBuscarPorCoordenadas } =
     useWeather();
 
   useEffect(() => {
@@ -37,19 +39,12 @@ function App() {
       }
   }, []);
 
-  // useEffect(() => {
-  //  if(ubicacion && ubicacion.lat && ubicacion.lon){
-  //   setBuscarPorCoordenadas(true)
-  //  }
-  
-  
-  // }, [ubicacion])
   
 
   return (
     <DataProvider>   
       <div className="md:flex">      
-          <Sidebar />
+          <Sidebar/>
           <MainResults />        
       </div>
     </DataProvider>

@@ -11,6 +11,7 @@ export function WeatherProvider({ children }) {
   const [forecast, setForecast] = useState(null);
   const [ubicacion, setUbicacion] = useState(null); // Para almacenar coordenadas o nombre de la ciudad
   const [buscarPorCoordenadas, setBuscarPorCoordenadas] = useState(false);
+  const [isLoading, setIsLoading] = useState(true)
 
   // Lógica para obtener el clima basado en la ubicación o la ciudad
   useEffect(() => {
@@ -42,6 +43,7 @@ export function WeatherProvider({ children }) {
         const dataForecast = await responseForecast.json();
         setClima(dataWeather);
         setForecast(dataForecast);
+        setIsLoading(false)
       } catch (error) {
         console.error('Error al obtener el clima:', error);
       }
@@ -51,7 +53,7 @@ export function WeatherProvider({ children }) {
   }, [ubicacion, buscarPorCoordenadas]);
 
   return (
-    <WeatherContext.Provider value={{ clima,forecast, ubicacion, setUbicacion, setBuscarPorCoordenadas }}>
+    <WeatherContext.Provider value={{isLoading, clima,forecast, ubicacion, setUbicacion, setBuscarPorCoordenadas }}>
       {children}
     </WeatherContext.Provider>
   );

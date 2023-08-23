@@ -10,7 +10,7 @@ const WeatherSearch = ({onClose}) => {
 
   // const {getDataByCity}=useContext(DataContext);
   // const {updateWeatherInfo}=useContext(DataContext);
-  const {ubicacion,setUbicacion} = useWeather();
+  const {setUbicacion} = useWeather();
 
 
   // const getDataByCity = async (city) => {
