@@ -2,9 +2,12 @@ import React, { useContext } from "react";
 import icon from "../assets/img/HeavyRain.png";
 import direction from "../assets/img/direction.svg";
 import DataContext from "../context/dataContext";
+import { useWeather } from "../context/WeatherContext";
 
 const MainResults = () => {
-  const { weatherInfo, forecastInfo } = useContext(DataContext);
+  // const { weatherInfo, forecastInfo } = useContext(DataContext);
+  const {clima:weatherInfo,forecast:forecastInfo} = useWeather();
+  // console.log(clima,forecast)
 
   const getFormateDate = (dateString) => {
     const date = new Date(dateString);
@@ -59,7 +62,7 @@ const MainResults = () => {
   return (
     <div className="bg-[#100E1D] md:w-full md:h-[100dvh] overflow-y-auto max-w-[62rem] md:px-[5rem] py-[1rem]">
       <div className="flex gap-3 flex-wrap items-center md:justify-between md:gap-5 p-[1.5rem]">
-        <div className="w-[7.5rem] bg-[#1E213A] h-[10rem] flex flex-col items-center justify-center">
+        {/* <div className="w-[7.5rem] bg-[#1E213A] h-[10rem] flex flex-col items-center justify-center">
           <h2 className="text-[#E7E7EB] text-[1rem]">Tomorrow</h2>
           <img src={icon} alt="" className="w-[3.5rem]" />
           <p className="text-[1rem] text-[#E7E7EB] m-[1rem] flex gap-3">
@@ -93,7 +96,7 @@ const MainResults = () => {
           <p className="text-[1rem] text-[#E7E7EB] m-[1rem] flex gap-3">
             16 °C <span className="text-[#A09FB1]">11 °C</span>
           </p>
-        </div>
+        </div> */}
         {forecastInfo &&
           ForecastByDays.map((e) => (
             <div

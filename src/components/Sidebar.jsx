@@ -6,14 +6,20 @@ import clouds from "../assets/img/Cloud-background.png";
 import DataContext from "../context/dataContext";
 import WeatherSearch from "../components/WeatherSearch";
 import './Sidebar.css';
+import { useWeather } from "../context/WeatherContext";
 
 const Sidebar = () => {
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   
-  const {weatherInfo, updateWeatherInfo} = useContext(DataContext);
-  console.log(weatherInfo)
+  // const {weatherInfo, updateWeatherInfo} = useContext(DataContext);
+  
+  const {clima:weatherInfo, setUbicacion, setBuscarPorCoordenadas } = useWeather();
+
+  // console.log(clima,ubicacion)
+
+  // console.log(weatherInfo)
   const API_KEY = "eaa81cef3e751d0ae1fd812e9323c09d";
 
   const getWeatherDataByCoords = async (lat,lon) => {
@@ -36,12 +42,20 @@ const Sidebar = () => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-          setLatitude(latitude);
-          setLongitude(longitude);
-          getWeatherDataByCoords(latitude,longitude)
+          // setLatitude(latitude);
+          // setLongitude(longitude);
+          // getWeatherDataByCoords(latitude,longitude)
+          setUbicacion({lat:latitude,lon:longitude});
+          setBuscarPorCoordenadas(true)
         },
         (error) => {
-          console.error("Error al obtener la Ubicacion:", error);
+         // Manejar errores, por ejemplo, si el usuario niega la autorización
+         console.error("Error al obtener la ubicación:", error.message);
+         if(error.code===1){
+           alert("El acceso del GPS fue denegado")
+         }else{
+           console.error("Error al obtener la ubicacion "+error.message)
+         }
         }
       );
     }
@@ -50,7 +64,9 @@ const Sidebar = () => {
 
   useEffect(() => {
     if (latitude && longitude) {
-      getWeatherDataByCoords(latitude,longitude);
+      // getWeatherDataByCoords(latitude,longitude);
+      setUbicacion({lat:latitude,lon:longitude});
+      setBuscarPorCoordenadas(ubicacion)
     }
   }, [latitude, longitude]);
 
@@ -112,7 +128,7 @@ const Sidebar = () => {
           Today · <span>{getFormatteDate()}</span>
         </p>
         <div className="flex items-center justify-center mb-[2rem]">
-          <img src={gps} alt="" />
+          <img src={gps} alt=""/>
           <p>{weatherInfo?.name || "Helsinki"}, {weatherInfo?.sys.country}</p>
         </div>
       </div>
