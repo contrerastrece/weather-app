@@ -28,16 +28,16 @@ const TodaHightight = () => {
   };
   return (
     <>
-      <div className="p-[1.5rem] pt-0 ">
-        <h2 className="text-[1.5rem] text-[#E7E7EB] my-[1rem]">
+      <div className="m-5 md:m-0">
+        <h2 className="text-[1.5rem] text-[#E7E7EB] my-[0.5rem]">
           Today's Hightlights
         </h2>
-        <div className="cards flex flex-col md:flex-row gap-[2rem]  text-[#E7E7EB] md:flex-wrap">
+        <div className="gap-[2rem] text-[#E7E7EB] grid md:grid-cols-2">
           {isLoading ? (
             <Loader />
           ) : (
             <>
-              <div className="md:w-[20rem] h-[9rem] md:h-[10.5rem] bg-[#1E213A] flex flex-col p-[0.5rem] justify-between items-center">
+              <div className="md:min-w-[15rem] h-[9rem] md:h-[10.5rem] bg-[#1E213A] flex flex-col p-[0.5rem] justify-between items-center">
                 <h2>Wind status</h2>
                 <div className="text-[#E7E7EB] text-[3rem]  flex justify-center items-center gap-2">
                   {Math.round(weatherInfo?.wind?.speed)}
@@ -53,7 +53,7 @@ const TodaHightight = () => {
                 </div>
               </div>
 
-              <div className="md:w-[20rem] h-[9rem] md:h-[10.5rem] bg-[#1E213A] flex flex-col p-[0.5rem] justify-between items-center ">
+              <div className="md:min-w-[15rem] h-[9rem] md:h-[10.5rem] bg-[#1E213A] flex flex-col p-[0.5rem] justify-between items-center ">
                 <h2>Humidity</h2>
                 <div className="text-[#E7E7EB] text-[3rem]  align-middle  flex justify-center items-center gap-2">
                   {weatherInfo?.main?.humidity}
@@ -76,7 +76,7 @@ const TodaHightight = () => {
                 </div>
               </div>
 
-              <div className="bg-[#1E213A] h-[8rem] md:w-[20rem] md:h-[8rem] flex flex-col p-[0.5rem] pb-[1rem] justify-between items-center">
+              <div className="bg-[#1E213A] h-[8rem] md:min-w-[15rem] md:h-[8rem] flex flex-col p-[0.5rem] pb-[1rem] justify-between items-center">
                 <h3 className="text-[#E7E7EB] text-[1rem]">Visibility</h3>
                 <p className="text-[4rem] flex gap-2 justify-center items-center  leading-[4rem]">
                   {weatherInfo?.visibility / 1000}
@@ -84,7 +84,7 @@ const TodaHightight = () => {
                 </p>
               </div>
 
-              <div className="bg-[#1E213A] h-[8rem] md:w-[20rem] md:h-[8rem] flex flex-col p-[0.5rem] pb-[1rem] justify-between items-center">
+              <div className="bg-[#1E213A] h-[8rem] md:min-w-[15rem] md:h-[8rem] flex flex-col p-[0.5rem] pb-[1rem] justify-between items-center">
                 <h3 className="text-[#E7E7EB] text-[1rem]">Air Pressure</h3>
                 <p className="text-[4rem]  flex gap-2 items-center leading-[4rem]">
                   {weatherInfo?.main?.pressure}

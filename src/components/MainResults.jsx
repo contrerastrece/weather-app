@@ -87,8 +87,12 @@ const MainResults = () => {
   };
 
   return (
-    <div className="bg-[#100E1D] md:w-full md:h-[100dvh] overflow-y-auto max-w-[62rem] md:px-[5rem] py-[1rem]  relative">
-      <div className="flex gap-3 flex-wrap items-center md:justify-between md:gap-5 p-[1.5rem]">
+    <div className="bg-[#100E1D] md:w-full md:h-[100dvh] flex flex-col gap-4 overflow-y-auto max-w-[62rem] md:px-[5rem] py-[1rem] relative">
+      <div className="md:w-full md:flex md:justify-end md:gap-2 hidden">
+        <div className="bg-[#E7E7EB] w-[2.5rem] h-[2.5rem] rounded-full flex justify-center items-center cursor-pointer"><p className="text-[#110E3C] font-bold text-[1.25rem]">°C</p></div>
+        <div className="bg-[#585676] w-[2.5rem] h-[2.5rem] rounded-full flex justify-center items-center cursor-pointer"><p className="text-[#E7E7EB] font-bold text-[1.25rem]">°F</p></div>
+      </div>
+      <div className="grid grid-cols-2 md:grid-cols-5 mx-5 md:m-0  gap-[2rem]">
         {isLoading ? (
           <Loader />
         ) : (
@@ -96,7 +100,7 @@ const MainResults = () => {
             <SkeletonTheme color="#1E213A" highlightColor="#444" key={e.date}>
               <div
                 key={e.date}
-                className="w-[7.5rem] bg-[#1E213A] h-[10rem] flex flex-col items-center justify-center"
+                className="min-w-[7rem] bg-[#1E213A] h-[10rem] flex flex-col items-center justify-center"
               >
                 <h2 className="text-[#E7E7EB] text-[1rem]">
                   {e.date ? getFormateDate(e.date) : <Skeleton width={100} />}
@@ -132,7 +136,7 @@ const MainResults = () => {
       <TodaHightight/>
       <div className="text-[#A09FB1] text-[0.85rem] w-[100%] absolute bottom-2 md:translate-x-[-5rem] text-center">
           <span>created by vcontreras</span>  
-        </div>
+      </div>
     </div>
   );
 };
