@@ -133,8 +133,8 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="h-[100dvh] w-full md:w-[25rem] flex flex-col justify-between items-center bg-[#1E213A] p-3 overflow-hidden ">
-      {!isLoading ? (
+    <div className="h-[100dvh] w-full md:w-[25rem] flex flex-col justify-between items-center bg-[#1E213A] p-3 pt-10 overflow-hidden md:overflow-visible ">
+      {isLoading ? (
         <Loader />
       ) : (
         <>

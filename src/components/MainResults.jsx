@@ -87,13 +87,13 @@ const MainResults = () => {
   };
 
   return (
-    <div className="bg-[#100E1D] md:w-full md:h-[100dvh] overflow-y-auto max-w-[62rem] md:px-[5rem] py-[1rem]">
+    <div className="bg-[#100E1D] md:w-full md:h-[100dvh] overflow-y-auto max-w-[62rem] md:px-[5rem] py-[1rem]  relative">
       <div className="flex gap-3 flex-wrap items-center md:justify-between md:gap-5 p-[1.5rem]">
-        {!isLoading ? (
+        {isLoading ? (
           <Loader />
         ) : (
           ForecastByDays.map((e) => (
-            <SkeletonTheme color="#1E213A" highlightColor="#444">
+            <SkeletonTheme color="#1E213A" highlightColor="#444" key={e.date}>
               <div
                 key={e.date}
                 className="w-[7.5rem] bg-[#1E213A] h-[10rem] flex flex-col items-center justify-center"
@@ -128,9 +128,11 @@ const MainResults = () => {
             </SkeletonTheme>
           ))
         )}
-      </div>
- 
+      </div> 
       <TodaHightight/>
+      <div className="text-[#A09FB1] text-[0.85rem] w-[100%] absolute bottom-2 md:translate-x-[-5rem] text-center">
+          <span>created by vcontreras</span>  
+        </div>
     </div>
   );
 };

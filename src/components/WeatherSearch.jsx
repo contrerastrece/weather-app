@@ -1,55 +1,30 @@
-import React, { useContext, useState,useEffect } from 'react'
+import React, { useState,useEffect } from 'react'
 import closeIcon from '../assets/img/close.svg'
 import left from '../assets/img/left.svg'
-import DataContext from '../context/dataContext'
 import { useWeather } from '../context/WeatherContext'
 
 const WeatherSearch = ({onClose}) => {
   const [inputCity, setInputCity] = useState("");
   const [errorMessage, setErrorMessage] = useState("")
 
-  // const {getDataByCity}=useContext(DataContext);
-  // const {updateWeatherInfo}=useContext(DataContext);
-  const {setUbicacion} = useWeather();
+  const {setUbicacion,setBuscarPorCoordenadas} = useWeather();
 
-
-  // const getDataByCity = async (city) => {
-  //   const API_KEY = "eaa81cef3e751d0ae1fd812e9323c09d";
-  //   let weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric&lang=sp`;
-  //   let forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=metric&lang=sp`
-
-  //   try {
-  //     const [responseWeather,responseForecast ]= await Promise.all([fetch(weatherUrl), fetch(forecastUrl)]);
-  //     if(responseWeather.ok && responseForecast.ok){
-  //       const resultWeather = await responseWeather.json();
-  //       const resultForecast = await responseForecast.json();
-        
-  //       updateWeatherInfo(resultWeather,resultForecast);
-  //       setErrorMessage("")
-  //     }else{
-  //       alert("ciudad no encontrada");
-  //       setErrorMessage("ciudad no encontrada")
-  //     }      
-  //   } catch (error) {
-  //     setErrorMessage("ciudad no encontrada")      
-  //   }
-  // };
 
   const handleInputChange = (event) => {
-    setInputCity(event.target.value);
-
+    setInputCity(event.target.value);    
   };
   
   const handleSubmit = (event) => {
     event.preventDefault();
-    // getDataByCity(inputCity)
-
+    console.log(inputCity)
+    setBuscarPorCoordenadas(false);
     setUbicacion(inputCity)
     onClose(); // Cerrar el modal después de realizar la búsqueda
+    
   };
   
   return (
-    <div className='w-full h-[100dvh] md:w-[25rem] p-3 gap-[1.5rem] fixed top-0 left-[0rem] bg-[#1E213A] flex flex-col'>
+    <div className='w-full h-[100dvh] md:w-[25rem] p-3 gap-[1.5rem] fixed top-0 left-[0rem] bg-[#1E213A] flex flex-col z-10'>
      <div className='w-full flex justify-end'><img src={closeIcon} alt="" className='w-[1.5rem] cursor-pointer' onClick={onClose}/></div>
       <form action="" className='flex w-full justify-between my-[1.5rem]' onSubmit={handleSubmit}>
         <input type="text"  className='h-[3rem] p-[1.5rem]' placeholder='search location' value={inputCity} onChange={handleInputChange}/>

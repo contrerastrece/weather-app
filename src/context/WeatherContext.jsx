@@ -37,10 +37,10 @@ export function WeatherProvider({ children }) {
           urlForecast = `https://api.openweathermap.org/data/2.5/forecast?q=london&appid=${TU_API_KEY}&units=metric&lang=sp`;
         }
 
-
         const [responseWeather,responseForecast] = await Promise.all([fetch(url),fetch(urlForecast)]);
         const dataWeather = await responseWeather.json();
         const dataForecast = await responseForecast.json();
+        
         setClima(dataWeather);
         setForecast(dataForecast);
         setIsLoading(false)
