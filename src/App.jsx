@@ -2,7 +2,6 @@ import { useEffect} from "react";
 import "./App.css";
 import MainResults from "./components/MainResults";
 import Sidebar from "./components/Sidebar";
-import { DataProvider } from "./context/dataContext";
 import { useWeather } from "./context/WeatherContext";
 import 'react-loading-skeleton/dist/skeleton.css'
 
@@ -39,12 +38,10 @@ function App() {
  
 
   return (
-    <DataProvider>   
       <div className="md:flex">      
           <Sidebar/>
           <MainResults />        
       </div>
-    </DataProvider>
   );
 }
 
