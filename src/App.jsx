@@ -1,11 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 import "./App.css";
 import MainResults from "./components/MainResults";
 import Sidebar from "./components/Sidebar";
 import { DataProvider } from "./context/dataContext";
 import { useWeather } from "./context/WeatherContext";
-import Loader from "./components/Loader";
-import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
 function App() {
@@ -38,8 +36,7 @@ function App() {
         console.error("El navegador no admite la geolocalización.");        
       }
   }, []);
-
-  
+ 
 
   return (
     <DataProvider>   

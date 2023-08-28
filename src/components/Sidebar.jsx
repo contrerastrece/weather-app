@@ -161,9 +161,8 @@ const Sidebar = () => {
           </div>
         </>
       )}
-      {/* {isOpen && <WeatherSearch onClose={toggleWeatherSearch} isOpen={isOpen} />} */}
+      
        <WeatherSearch onClose={toggleWeatherSearch} isOpen={isOpen} />
-      {/* {<WeatherSearch onClose={toggleWeatherSearch} />} */}
     </div>
   );
 };

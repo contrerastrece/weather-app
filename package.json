@@ -1,6 +1,7 @@
 {
   "name": "weather-app",
   "private": true,
+  "homepage": "http:/contrerastrece.github.io/weather-app",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
