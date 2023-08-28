@@ -59,7 +59,7 @@ const MainResults = () => {
     return result;
   };
 
-  // filtrar la fecha actual
+  // convertimos el dt en formato yyyy-mm-dd para luego eliminarlo de nuestro groupForecast
   const today = new Date(weatherInfo?.dt * 1000);
   const year = today.getFullYear();
   const month = String(today.getMonth() + 1).padStart(2, "0"); // Sumar 1 al mes porque en JavaScript los meses van de 0 a 11
@@ -70,7 +70,7 @@ const MainResults = () => {
   const ForecastByDays = calcMinMaxTempByDay(groupForecast).filter(
     (e) => e.date !== fechaFormateada
   );
-  console.log(ForecastByDays);
+  // console.log(ForecastByDays);
 
   const Loader = () => {
     const arr = [1, 2, 3, 4, 5];

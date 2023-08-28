@@ -56,10 +56,13 @@ const Sidebar = () => {
   };
 
   const getFormatteDate = (dt,timezone) => {
+    console.log(dt,timezone)
+    const date= new Date((dt+timezone) *1000);
+
+
     const options = { weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" };
-    const date = new Date((dt + timezone)*1000);
   
-    return date.toLocaleString("es-ES", options);
+    return date.toUTCString().slice(0, -7);;
 
   };
 
