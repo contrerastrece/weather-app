@@ -1,22 +1,17 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {useEffect, useState } from "react";
 import location from "../assets/img/location.svg";
 import gps from "../assets/img/gps.svg";
 import shower from "../assets/img/10d.png";
-import clouds from "../assets/img/Cloud-background.png";
-import DataContext from "../context/dataContext";
 import WeatherSearch from "../components/WeatherSearch";
 import "./Sidebar.css";
 import { useWeather } from "../context/WeatherContext";
 import Skeleton,{ SkeletonTheme } from "react-loading-skeleton";
-// import "react-loading-skeleton/dist/skeleton.css";
 
 const Sidebar = () => {
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  // const {weatherInfo, updateWeatherInfo} = useContext(DataContext);
-// console.log(isLoading)
   const {
     isLoading,
     clima: weatherInfo,
@@ -24,28 +19,7 @@ const Sidebar = () => {
     setBuscarPorCoordenadas,
   } = useWeather();
 
-  // console.log(clima,ubicacion)
-
-  // console.log(weatherInfo)
-  const API_KEY = "eaa81cef3e751d0ae1fd812e9323c09d";
-
-  const getWeatherDataByCoords = async (lat, lon) => {
-    const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&exclude={part}&appid=${API_KEY}&units=metric&lang=sp`;
-    const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric&lang=sp`;
-    try {
-      const [responseWeather, responseForecast] = await Promise.all([
-        fetch(weatherUrl),
-        fetch(forecastUrl),
-      ]);
-      const resultWeather = await responseWeather.json();
-      const resultForecast = await responseForecast.json();
-
-      updateWeatherInfo(resultWeather, resultForecast);
-    } catch (error) {
-      console.error("Error al obtener datos del clima:", error);
-    }
-  };
-
+// console.log(weatherInfo)
   const handleLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -72,7 +46,6 @@ const Sidebar = () => {
 
   useEffect(() => {
     if (latitude && longitude) {
-      // getWeatherDataByCoords(latitude,longitude);
       setUbicacion({ lat: latitude, lon: longitude });
       setBuscarPorCoordenadas(true);
     }
@@ -82,10 +55,12 @@ const Sidebar = () => {
     setIsOpen(!isOpen);
   };
 
-  const getFormatteDate = () => {
-    const options = { weekday: "short", day: "numeric", month: "short" };
-    const currentDate = new Date();
-    return currentDate.toLocaleDateString("es-ES", options);
+  const getFormatteDate = (dt,timezone) => {
+    const options = { weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" };
+    const date = new Date((dt + timezone)*1000);
+  
+    return date.toLocaleString("es-ES", options);
+
   };
 
   const Loader = () => {
@@ -94,7 +69,6 @@ const Sidebar = () => {
         <div className="w-full h-[2.5rem] flex flex-row justify-between">
             <button
               className=" bg-[#6E707A] px-3 py-3 text-[#E7E7EB] leading-[0rem]"
-              onClick={toggleWeatherSearch}
             >
               Search for Places
             </button>
@@ -103,7 +77,6 @@ const Sidebar = () => {
                 src={location}
                 alt="img-location"
                 className="h-[2.5rem]"
-                onClick={handleLocation}
               />
             </button>
           </div>
@@ -178,7 +151,7 @@ const Sidebar = () => {
               {weatherInfo?.weather[0]?.description}
             </div>
             <p className="date">
-              Today · <span>{getFormatteDate()}</span>
+              Today · <span>{getFormatteDate(weatherInfo.dt,weatherInfo.timezone)}</span>
             </p>
             <div className="flex items-center justify-center mb-[2rem]">
               <img src={gps} alt="" />

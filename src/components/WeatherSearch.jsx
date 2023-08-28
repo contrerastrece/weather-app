@@ -28,7 +28,6 @@ const WeatherSearch = ({ onClose }) => {
 
       setCityFound(data.list);
       setIsLoading(false)
-      console.log(isLoading)
     } catch (error) {
       console.log(error)
     }
@@ -42,6 +41,7 @@ const WeatherSearch = ({ onClose }) => {
     setCoords(coords);
     setBuscarPorCoordenadas(true);
     setUbicacion(coords);
+    onClose()
   };
 
   const Loader=()=>{

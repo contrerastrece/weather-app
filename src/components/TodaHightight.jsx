@@ -32,7 +32,7 @@ const TodaHightight = () => {
         <h2 className="text-[1.5rem] text-[#E7E7EB] my-[0.5rem]">
           Today's Hightlights
         </h2>
-        <div className="gap-[2rem] text-[#E7E7EB] grid md:grid-cols-2">
+        <div className="gap-[2rem] text-[#E7E7EB] grid md:grid-cols-1 lg:grid-cols-2">
           {isLoading ? (
             <Loader />
           ) : (

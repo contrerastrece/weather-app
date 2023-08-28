@@ -1,19 +1,14 @@
 import icon from "../assets/img/HeavyRain.png";
-import DataContext from "../context/dataContext";
 import { useWeather } from "../context/WeatherContext";
-
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import TodaHightight from "./TodaHightight";
-// import "react-loading-skeleton/dist/skeleton.css";
 
 const MainResults = () => {
-  // const { weatherInfo, forecastInfo } = useContext(DataContext);
   const {
     isLoading,
     clima: weatherInfo,
     forecast: forecastInfo,
   } = useWeather();
-  // console.log(clima,forecast)
 
   const getFormateDate = (dateString) => {
     const date = new Date(dateString);
@@ -36,6 +31,8 @@ const MainResults = () => {
       }
       grouped[date].push(el);
     });
+
+    // Eliminar la fecha actual
     return grouped;
   };
 
@@ -62,22 +59,36 @@ const MainResults = () => {
     return result;
   };
 
+  // filtrar la fecha actual
+  const today = new Date(weatherInfo?.dt * 1000);
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0"); // Sumar 1 al mes porque en JavaScript los meses van de 0 a 11
+  const day = String(today.getDate()).padStart(2, "0");
+  const fechaFormateada = `${year}-${month}-${day}`;
+
   const groupForecast = groupByDay(forecastInfo);
-  const ForecastByDays = calcMinMaxTempByDay(groupForecast).slice(1);
+  const ForecastByDays = calcMinMaxTempByDay(groupForecast).filter(
+    (e) => e.date !== fechaFormateada
+  );
+  console.log(ForecastByDays);
 
   const Loader = () => {
     const arr = [1, 2, 3, 4, 5];
     return (
       <>
-        {arr.map((e) =>( 
-          <SkeletonTheme baseColor="#6E707A" highlightColor="rgba(232, 232, 232, 0.25)" key={e}>
+        {arr.map((e) => (
+          <SkeletonTheme
+            baseColor="#6E707A"
+            highlightColor="rgba(232, 232, 232, 0.25)"
+            key={e}
+          >
             <div className="w-[7.5rem] bg-[#1E213A] h-[10rem] flex flex-col items-center justify-around">
               <h2 className="text-[#E7E7EB] text-[1rem]">
-                <Skeleton width={100} height={10} duration={0.5}/>
+                <Skeleton width={100} height={10} duration={0.5} />
               </h2>
-              <Skeleton width={"3rem"} height={"3rem"} circle duration={0.5}/>
+              <Skeleton width={"3rem"} height={"3rem"} circle duration={0.5} />
               <p className="text-[1rem] m-[1rem]">
-                <Skeleton width={60} height={5} duration={0.5}/>
+                <Skeleton width={60} height={5} duration={0.5} />
               </p>
             </div>
           </SkeletonTheme>
@@ -89,10 +100,14 @@ const MainResults = () => {
   return (
     <div className="bg-[#100E1D] md:w-full md:h-[100dvh] flex flex-col gap-4 overflow-y-auto max-w-[62rem] md:px-[5rem] py-[1rem] relative">
       <div className="md:w-full md:flex md:justify-end md:gap-2 hidden">
-        <div className="bg-[#E7E7EB] w-[2.5rem] h-[2.5rem] rounded-full flex justify-center items-center cursor-pointer"><p className="text-[#110E3C] font-bold text-[1.25rem]">°C</p></div>
-        <div className="bg-[#585676] w-[2.5rem] h-[2.5rem] rounded-full flex justify-center items-center cursor-pointer"><p className="text-[#E7E7EB] font-bold text-[1.25rem]">°F</p></div>
+        <div className="bg-[#E7E7EB] w-[2.5rem] h-[2.5rem] rounded-full flex justify-center items-center cursor-pointer">
+          <p className="text-[#110E3C] font-bold text-[1.25rem]">°C</p>
+        </div>
+        <div className="bg-[#585676] w-[2.5rem] h-[2.5rem] rounded-full flex justify-center items-center cursor-pointer">
+          <p className="text-[#E7E7EB] font-bold text-[1.25rem]">°F</p>
+        </div>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-5 mx-5 md:m-0  gap-[2rem]">
+      <div className="grid grid-cols-2 md:grid-cols-2 sm:grid-cols-3 mx-5 md:m-0 gap-[2rem] lg:grid-cols-4 xl:grid-cols-5">
         {isLoading ? (
           <Loader />
         ) : (
@@ -132,10 +147,10 @@ const MainResults = () => {
             </SkeletonTheme>
           ))
         )}
-      </div> 
-      <TodaHightight/>
-      <div className="text-[#A09FB1] text-[0.85rem] w-[100%] absolute bottom-2 md:translate-x-[-5rem] text-center">
-          <span>created by vcontreras</span>  
+      </div>
+      <TodaHightight />
+      <div className="text-[#A09FB1] text-[0.85rem] w-[100%] relative bottom-0 md:translate-x-[-5rem] text-center">
+        <span>created by vcontreras</span>
       </div>
     </div>
   );
