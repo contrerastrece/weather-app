@@ -10,7 +10,7 @@ import Skeleton,{ SkeletonTheme } from "react-loading-skeleton";
 const Sidebar = () => {
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   const {
     isLoading,
@@ -56,12 +56,8 @@ const Sidebar = () => {
   };
 
   const getFormatteDate = (dt,timezone) => {
-    console.log(dt,timezone)
     const date= new Date((dt+timezone) *1000);
-
-
-    const options = { weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" };
-  
+ 
     return date.toUTCString().slice(0, -7);;
 
   };
@@ -165,7 +161,8 @@ const Sidebar = () => {
           </div>
         </>
       )}
-      {isOpen && <WeatherSearch onClose={toggleWeatherSearch} />}
+      {/* {isOpen && <WeatherSearch onClose={toggleWeatherSearch} isOpen={isOpen} />} */}
+       <WeatherSearch onClose={toggleWeatherSearch} isOpen={isOpen} />
       {/* {<WeatherSearch onClose={toggleWeatherSearch} />} */}
     </div>
   );

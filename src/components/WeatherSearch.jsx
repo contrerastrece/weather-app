@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import closeIcon from "../assets/img/close.svg";
 import left from "../assets/img/left.svg";
 import { useWeather } from "../context/WeatherContext";
-
+import './WeatherSearch.css'
 import Skeleton,{ SkeletonTheme } from "react-loading-skeleton";
 
-const WeatherSearch = ({ onClose }) => {
+const WeatherSearch = ({ onClose,isOpen }) => {
   const [inputCity, setInputCity] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [cityFound, setCityFound] = useState([]);
@@ -61,10 +61,10 @@ const WeatherSearch = ({ onClose }) => {
       </SkeletonTheme>
     )
   }
-
+console.log(isOpen)
 
   return (
-    <div className="w-full h-[100dvh] md:w-[25rem] p-3 gap-[1.5rem] fixed top-0 left-[0rem] bg-[#1E213A] flex flex-col z-10">
+    <div className={`w-full h-[100dvh] md:w-[25rem] p-3 gap-[1.5rem] fixed top-0 left-[0rem] bg-[#1E213A] flex flex-col z-10 container ${isOpen?"isActive":""}`}>
       <div className="w-full flex justify-end">
         <img
           src={closeIcon}

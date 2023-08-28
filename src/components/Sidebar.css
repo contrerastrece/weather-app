@@ -21,7 +21,6 @@
   background-size: contain;
 }
 
-
 @keyframes slide {
   0% {
     transform: translateX(50%); /* Comienza en el centro */
